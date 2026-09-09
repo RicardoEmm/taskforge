@@ -3,6 +3,7 @@ package domain
 import (
 	"time"
 
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -27,7 +28,7 @@ type Project struct {
 	Name        string        `gorm:"size:150;not null" json:"name"`
 	Description string        `gorm:"type:text" json:"description,omitempty"`
 	OwnerID     uuid.UUID     `gorm:"type:uuid;not null;index" json:"owner_id"`
-	Owner       *User         `gorm:"foreignKey:OwnerID;constraint:OnDelete:CASCADE" json:"owner,omitempty"`
+	Owner       *users.User   `gorm:"foreignKey:OwnerID;constraint:OnDelete:CASCADE" json:"owner,omitempty"`
 	Status      ProjectStatus `gorm:"size:20;not null;default:'ACTIVE'" json:"status"`
 	CreatedAt   time.Time     `json:"created_at"`
 	UpdatedAt   time.Time     `json:"updated_at"`

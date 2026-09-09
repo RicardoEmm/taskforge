@@ -4,14 +4,15 @@ import (
 	"context"
 
 	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/google/uuid"
 )
 
 type UserRepo interface {
-	FindById(ctx context.Context, id uuid.UUID) (*domain.User, error)
-	FindAll(ctx context.Context) ([]*domain.User, error)
+	FindById(ctx context.Context, id uuid.UUID) (*users.User, error)
+	FindAll(ctx context.Context) ([]*users.User, error)
 	ExistsByEmail(ctx context.Context, email string) (bool, error)
-	Save(ctx context.Context, user *domain.User) error
+	Save(ctx context.Context, user *users.User) error
 }
 
 type ProjectRepo interface {

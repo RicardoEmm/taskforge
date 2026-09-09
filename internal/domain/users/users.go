@@ -1,4 +1,4 @@
-package domain
+package users
 
 import (
 	"time"
@@ -6,21 +6,6 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
-
-type UserRole string
-
-const (
-	AdminRole  UserRole = "ADMIN"
-	MemberRole UserRole = "MEMBER"
-)
-
-func (r UserRole) IsValid() bool {
-	switch r {
-	case AdminRole, MemberRole:
-		return true
-	}
-	return false
-}
 
 type User struct {
 	ID         uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`

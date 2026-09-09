@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/RicardoEmm/taskforge/internal/service"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -31,8 +31,8 @@ func (r *GormUserRepository) ExistsByEmail(ctx context.Context, email string) (b
 	return count > 0, nil
 }
 
-func (r *GormUserRepository) FindAll(ctx context.Context) ([]*domain.User, error) {
-	var users []*domain.User
+func (r *GormUserRepository) FindAll(ctx context.Context) ([]*users.User, error) {
+	var users []*users.User
 
 	if err := r.db.WithContext(ctx).Find(&users).Error; err != nil {
 		return nil, err
@@ -41,8 +41,8 @@ func (r *GormUserRepository) FindAll(ctx context.Context) ([]*domain.User, error
 	return users, nil
 }
 
-func (r *GormUserRepository) FindById(ctx context.Context, id uuid.UUID) (*domain.User, error) {
-	var user *domain.User
+func (r *GormUserRepository) FindById(ctx context.Context, id uuid.UUID) (*users.User, error) {
+	var user *users.User
 
 	if err := r.db.WithContext(ctx).First("id = ?", id).Error; err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (r *GormUserRepository) FindById(ctx context.Context, id uuid.UUID) (*domai
 	return user, nil
 }
 
-func (r *GormUserRepository) Save(ctx context.Context, user *domain.User) error {
+func (r *GormUserRepository) Save(ctx context.Context, user *users.User) error {
 	return r.db.WithContext(ctx).Create(user).Error
 }
 

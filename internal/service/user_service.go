@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/RicardoEmm/taskforge/internal/dto"
 	"github.com/google/uuid"
 )
@@ -24,7 +24,7 @@ func NewUserService(userRepo UserRepo) *UserService {
 	return &UserService{userRepo: userRepo}
 }
 
-func (s *UserService) FindAll(ctx context.Context) ([]*domain.User, error) {
+func (s *UserService) FindAll(ctx context.Context) ([]*users.User, error) {
 	users, err := s.userRepo.FindAll(ctx)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *UserService) FindAll(ctx context.Context) ([]*domain.User, error) {
 	return users, nil
 }
 
-func (s *UserService) FindById(ctx context.Context, id uuid.UUID) (*domain.User, error) {
+func (s *UserService) FindById(ctx context.Context, id uuid.UUID) (*users.User, error) {
 	user, err := s.userRepo.FindById(ctx, id)
 
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *UserService) Create(ctx context.Context, input dto.UserCreateInput) err
 		return ErrUserEmailAlreadyExists
 	}
 
-	if err := s.userRepo.Save(ctx, &domain.User{
+	if err := s.userRepo.Save(ctx, &users.User{
 		FullName: input.FullName,
 		Email:    input.Email,
 		Role:     input.Role,

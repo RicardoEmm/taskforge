@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/RicardoEmm/taskforge/internal/dto"
 	"github.com/RicardoEmm/taskforge/internal/service"
 	"github.com/gin-gonic/gin"
@@ -58,7 +58,7 @@ func (h *UserHandler) Create(c *gin.Context) {
 	if err := h.userService.Create(c.Request.Context(), dto.UserCreateInput{
 		FullName: req.FullName,
 		Email:    req.Email,
-		Role:     domain.UserRole(req.Role),
+		Role:     users.UserRole(req.Role),
 	}); err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
 		return

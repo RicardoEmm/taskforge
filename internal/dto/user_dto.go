@@ -1,6 +1,8 @@
 package dto
 
-import "github.com/RicardoEmm/taskforge/internal/domain"
+import (
+	"github.com/RicardoEmm/taskforge/internal/domain/users"
+)
 
 type UserRequest struct {
 	FullName string `json:"full_name" binding:"required,max=120"`
@@ -11,5 +13,5 @@ type UserRequest struct {
 type UserCreateInput struct {
 	FullName string
 	Email    string
-	Role     domain.UserRole
+	Role     users.UserRole
 }
