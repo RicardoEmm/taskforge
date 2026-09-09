@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/projects"
 	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/google/uuid"
 )
@@ -16,8 +16,8 @@ type UserRepo interface {
 }
 
 type ProjectRepo interface {
-	FindByID(ctx context.Context, id uuid.UUID) (*domain.Project, error)
-	FindByOwnerID(ctx context.Context, ownerId uuid.UUID) ([]*domain.Project, error)
-	FindAll(ctx context.Context) ([]*domain.Project, error)
-	Save(ctx context.Context, project *domain.Project) error
+	FindByID(ctx context.Context, id uuid.UUID) (*projects.Project, error)
+	FindByOwnerID(ctx context.Context, ownerId uuid.UUID) ([]*projects.Project, error)
+	FindAll(ctx context.Context) ([]*projects.Project, error)
+	Save(ctx context.Context, project *projects.Project) error
 }

@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/projects"
 	"github.com/RicardoEmm/taskforge/internal/dto"
 	"github.com/RicardoEmm/taskforge/internal/service"
 	"github.com/gin-gonic/gin"
@@ -77,7 +77,7 @@ func (h *ProjectHandler) Create(c *gin.Context) {
 		Name:        req.Name,
 		Description: req.Description,
 		OwnerId:     req.OwnerID,
-		Status:      domain.ProjectStatus(req.Status),
+		Status:      projects.ProjectStatus(req.Status),
 	}); err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
 		return

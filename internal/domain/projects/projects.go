@@ -1,4 +1,4 @@
-package domain
+package projects
 
 import (
 	"time"
@@ -7,21 +7,6 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
-
-type ProjectStatus string
-
-const (
-	ProjectStatusActive   ProjectStatus = "ACTIVE"
-	ProjectStatusArchived ProjectStatus = "ARCHIVED"
-)
-
-func (s ProjectStatus) IsValid() bool {
-	switch s {
-	case ProjectStatusActive, ProjectStatusArchived:
-		return true
-	}
-	return false
-}
 
 type Project struct {
 	ID          uuid.UUID     `gorm:"type:uuid;primaryKey" json:"id"`

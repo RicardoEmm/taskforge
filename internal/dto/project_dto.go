@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/projects"
 	"github.com/google/uuid"
 )
 
@@ -16,5 +16,5 @@ type ProjectCreateInput struct {
 	Name        string
 	Description string
 	OwnerId     uuid.UUID
-	Status      domain.ProjectStatus
+	Status      projects.ProjectStatus
 }

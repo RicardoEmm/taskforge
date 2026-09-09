@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/RicardoEmm/taskforge/internal/domain"
+	"github.com/RicardoEmm/taskforge/internal/domain/projects"
 	"github.com/RicardoEmm/taskforge/internal/dto"
 	"github.com/google/uuid"
 )
@@ -24,7 +24,7 @@ func NewProjectService(projectRepo ProjectRepo, userRepo UserRepo) *ProjectServi
 	return &ProjectService{projectRepo: projectRepo, userRepo: userRepo}
 }
 
-func (s *ProjectService) FindAll(ctx context.Context) ([]*domain.Project, error) {
+func (s *ProjectService) FindAll(ctx context.Context) ([]*projects.Project, error) {
 	projects, err := s.projectRepo.FindAll(ctx)
 
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *ProjectService) FindAll(ctx context.Context) ([]*domain.Project, error)
 	return projects, nil
 }
 
-func (s *ProjectService) FindByID(ctx context.Context, id uuid.UUID) (*domain.Project, error) {
+func (s *ProjectService) FindByID(ctx context.Context, id uuid.UUID) (*projects.Project, error) {
 	project, err := s.projectRepo.FindByID(ctx, id)
 
 	if err != nil {
@@ -44,7 +44,7 @@ func (s *ProjectService) FindByID(ctx context.Context, id uuid.UUID) (*domain.Pr
 	return project, nil
 }
 
-func (s *ProjectService) FindByOwnerID(ctx context.Context, ownerID uuid.UUID) ([]*domain.Project, error) {
+func (s *ProjectService) FindByOwnerID(ctx context.Context, ownerID uuid.UUID) ([]*projects.Project, error) {
 	projects, err := s.projectRepo.FindByOwnerID(ctx, ownerID)
 
 	if err != nil {
@@ -61,7 +61,7 @@ func (s *ProjectService) Create(ctx context.Context, input dto.ProjectCreateInpu
 		return ErrUserNotFound
 	}
 
-	if err := s.projectRepo.Save(ctx, &domain.Project{
+	if err := s.projectRepo.Save(ctx, &projects.Project{
 		Name:        input.Name,
 		Description: input.Description,
 		OwnerID:     owner.ID,
