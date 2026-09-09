@@ -5,9 +5,9 @@ import (
 
 	"github.com/RicardoEmm/taskforge/internal/domain/users"
 	"github.com/RicardoEmm/taskforge/internal/dto"
+	"github.com/RicardoEmm/taskforge/internal/httputil"
 	"github.com/RicardoEmm/taskforge/internal/service"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type UserHandler struct {
@@ -30,10 +30,9 @@ func (h *UserHandler) FindAll(c *gin.Context) {
 }
 
 func (h *UserHandler) FindById(c *gin.Context) {
-	parsedID, err := uuid.Parse(c.Param("id"))
+	parsedID, ok := httputil.ParseUUID(c, c.Param("id"), "owner_id")
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if !ok {
 		return
 	}
 

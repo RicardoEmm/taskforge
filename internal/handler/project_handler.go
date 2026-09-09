@@ -5,9 +5,9 @@ import (
 
 	"github.com/RicardoEmm/taskforge/internal/domain/projects"
 	"github.com/RicardoEmm/taskforge/internal/dto"
+	"github.com/RicardoEmm/taskforge/internal/httputil"
 	"github.com/RicardoEmm/taskforge/internal/service"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type ProjectHandler struct {
@@ -30,10 +30,9 @@ func (h *ProjectHandler) FindAll(c *gin.Context) {
 }
 
 func (h *ProjectHandler) FindByID(c *gin.Context) {
-	parsedID, err := uuid.Parse(c.Param("id"))
+	parsedID, ok := httputil.ParseUUID(c, c.Param("id"), "id")
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ID"})
+	if !ok {
 		return
 	}
 
@@ -48,14 +47,13 @@ func (h *ProjectHandler) FindByID(c *gin.Context) {
 }
 
 func (h *ProjectHandler) FindByOwnerID(c *gin.Context) {
-	ownerParsedID, err := uuid.Parse(c.Param("id"))
+	ownerID, ok := httputil.ParseUUID(c, c.Param("id"), "owner_id")
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ID"})
+	if !ok {
 		return
 	}
 
-	projects, err := h.projectService.FindByOwnerID(c.Request.Context(), ownerParsedID)
+	projects, err := h.projectService.FindByOwnerID(c.Request.Context(), ownerID)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -73,10 +71,16 @@ func (h *ProjectHandler) Create(c *gin.Context) {
 		return
 	}
 
+	ownerID, ok := httputil.ParseUUID(c, c.Param("id"), "owner_id")
+
+	if !ok {
+		return
+	}
+
 	if err := h.projectService.Create(c.Request.Context(), dto.ProjectCreateInput{
 		Name:        req.Name,
 		Description: req.Description,
-		OwnerId:     req.OwnerID,
+		OwnerId:     ownerID,
 		Status:      projects.ProjectStatus(req.Status),
 	}); err != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": err.Error()})

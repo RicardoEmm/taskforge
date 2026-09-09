@@ -6,10 +6,10 @@ import (
 )
 
 type ProjectRequest struct {
-	Name        string    `json:"name" binding:"required,max=150"`
-	Description string    `json:"description"`
-	OwnerID     uuid.UUID `json:"owner_id" binding:"required"`
-	Status      string    `json:"status" binding:"required,oneof=ACTIVE ARCHIVED"`
+	Name        string `json:"name" binding:"required,max=150"`
+	Description string `json:"description"`
+	OwnerID     string `json:"owner_id" binding:"required"`
+	Status      string `json:"status" binding:"required,oneof=ACTIVE ARCHIVED"`
 }
 
 type ProjectCreateInput struct {

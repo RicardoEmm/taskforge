@@ -11,7 +11,7 @@ import (
 
 var (
 	ErrInternal          = errors.New("internal server error")
-	ErrProjectNotFounf   = errors.New("project not found")
+	ErrProjectNotFound   = errors.New("project not found")
 	ErrProjectNotCreated = errors.New("project cannot be created")
 )
 
@@ -38,7 +38,7 @@ func (s *ProjectService) FindByID(ctx context.Context, id uuid.UUID) (*projects.
 	project, err := s.projectRepo.FindByID(ctx, id)
 
 	if err != nil {
-		return nil, ErrProjectNotFounf
+		return nil, ErrProjectNotFound
 	}
 
 	return project, nil
