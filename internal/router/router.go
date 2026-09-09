@@ -6,7 +6,8 @@ import (
 )
 
 type Handlers struct {
-	UserHandler *handler.UserHandler
+	ProductHandler *handler.ProjectHandler
+	UserHandler    *handler.UserHandler
 }
 
 func Setup(h Handlers) *gin.Engine {
@@ -15,6 +16,7 @@ func Setup(h Handlers) *gin.Engine {
 	api := router.Group("/api/v1")
 	{
 		registerUserRoutes(api, h.UserHandler)
+		registerProductRoutes(api, h.ProductHandler)
 	}
 
 	return router
