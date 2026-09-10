@@ -11,6 +11,7 @@ import (
 
 type UserRepo interface {
 	FindById(ctx context.Context, id uuid.UUID) (*users.User, error)
+	FindByEmail(ctx context.Context, email string) (*users.User, error)
 	FindAll(ctx context.Context) ([]*users.User, error)
 	ExistsByEmail(ctx context.Context, email string) (bool, error)
 	Save(ctx context.Context, user *users.User) error

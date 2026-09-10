@@ -14,6 +14,7 @@ var (
 	ErrUserNotFound           = errors.New("user not found")
 	ErrUserEmailAlreadyExists = errors.New("user email already exists")
 	ErrUserNotCreated         = errors.New("user cannot be created")
+	ErrUserBadCredentials     = errors.New("bad credentials")
 )
 
 type UserService struct {
@@ -64,4 +65,49 @@ func (s *UserService) Create(ctx context.Context, input dto.UserCreateInput) err
 	}
 
 	return nil
+}
+
+func (s *UserService) Register(ctx context.Context, name, email, password string) (*users.User, error) {
+	exists, err := s.userRepo.ExistsByEmail(ctx, email)
+
+	if err != nil {
+		return nil, ErrInternalServer
+	}
+
+	if exists {
+		return nil, ErrUserEmailAlreadyExists
+	}
+
+	hash, err := HashPassword(password)
+
+	if err != nil {
+		return nil, err
+	}
+
+	user := &users.User{
+		FullName:     name,
+		Email:        email,
+		PasswordHash: hash,
+		Role:         users.MemberRole,
+	}
+
+	if err := s.userRepo.Save(ctx, user); err != nil {
+		return nil, ErrUserNotCreated
+	}
+
+	return user, nil
+}
+
+func (s *UserService) ValidateCredentials(ctx context.Context, email, password string) (*users.User, error) {
+	user, err := s.userRepo.FindByEmail(ctx, email)
+
+	if err != nil {
+		return nil, ErrUserBadCredentials
+	}
+
+	if !CheckPassword(user.PasswordHash, password) {
+		return nil, ErrUserBadCredentials
+	}
+
+	return user, nil
 }

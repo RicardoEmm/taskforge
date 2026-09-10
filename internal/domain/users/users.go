@@ -8,14 +8,15 @@ import (
 )
 
 type User struct {
-	ID         uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
-	FullName   string    `gorm:"size:120;not null" json:"full_name"`
-	Email      string    `gorm:"size:160;not null;uniqueIndex" json:"email"`
-	Role       UserRole  `gorm:"size:20;not null" json:"role"`
-	AvatarPath *string   `gorm:"size:255" json:"avatar_path"`
-	CreatedAt  time.Time `json:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at"`
-	DeletedAt  time.Time `gorm:"index" json:"-"`
+	ID           uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
+	FullName     string    `gorm:"size:120;not null" json:"full_name"`
+	Email        string    `gorm:"size:160;not null;uniqueIndex" json:"email"`
+	PasswordHash string    `gorm:"size:255;not null" json:"-"`
+	Role         UserRole  `gorm:"size:20;not null;default:MEMBER" json:"role"`
+	AvatarPath   *string   `gorm:"size:255" json:"avatar_path"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
+	DeletedAt    time.Time `gorm:"index" json:"-"`
 }
 
 func (User) TableName() string {
