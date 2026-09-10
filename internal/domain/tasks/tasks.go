@@ -17,7 +17,7 @@ type Task struct {
 	Description *string           `gorm:"type:text" json:"description,omitempty"`
 	Status      TaskStatus        `gorm:"size:20;not null;default:'TODO'" json:"status"`
 	Priority    TaskPriority      `gorm:"size:10;not null" json:"priority"`
-	AssigneeID  *uuid.UUID        `gorm:"type:uuid;not null" json:"assignee_id,omitempty"`
+	AssigneeID  *uuid.UUID        `gorm:"type:uuid" json:"assignee_id,omitempty"`
 	Assignee    *users.User       `gorm:"foreignKey:AssigneeID" json:"assignee,omitempty"`
 	DueDate     *time.Time        `gorm:"type:date" json:"due_date,omitempty"`
 	CreatedAt   time.Time         `json:"created_at"`
