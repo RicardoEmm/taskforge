@@ -1,0 +1,8 @@
+# Env variables
+.env
+
+# macOS
+.OS_Store
+
+# VS code
+.vscode/

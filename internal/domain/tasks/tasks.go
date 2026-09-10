@@ -25,6 +25,10 @@ type Task struct {
 	DeletedAt   gorm.DeletedAt    `gorm:"index" json:"-"`
 }
 
+func (Task) TableName() string {
+	return "tasks"
+}
+
 func (t *Task) BeforeCreate(tx *gorm.DB) error {
 	if t.ID == uuid.Nil {
 		t.ID = uuid.New()
